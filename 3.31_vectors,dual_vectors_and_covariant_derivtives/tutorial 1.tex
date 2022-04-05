@@ -1,0 +1,436 @@
+\documentclass[UTF-8]{article}
+\usepackage[fleqn]{amsmath}
+\usepackage{ctex}
+
+\usepackage{amssymb,graphicx,color,graphicx,slashed, microtype, parskip, enumitem, extarrows, needspace}
+\usepackage[top=1.5cm, bottom=1.5cm, right=6cm, left=1.5cm, heightrounded, marginparwidth=5cm, marginparsep=0.5cm]{geometry}
+
+\hbadness = 10000
+\hfuzz=100pt 
+\linespread{1.2}
+    
+\usepackage{marginnote}
+\renewcommand*{\marginfont}{\footnotesize}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=NavyBlue, bookmarksdepth=3}
+
+\usepackage{cite}
+\bibliographystyle{plain}
+
+
+
+\makeatletter\newcommand{\@minipagerestore}{\setlength{\parskip}{\medskipamount}}\makeatother
+
+% =============== Index ===========================
+
+\usepackage[nonewpage]{imakeidx}
+\makeindex
+
+% =============== Color Definitions ===============
+    
+\usepackage[svgnames]{xcolor}
+\colorlet{ColorTitle}{Black}
+\colorlet{ColorSectionName}{Black}
+\colorlet{ColorBoxFG}{Gray}
+\colorlet{ColorBoxText}{Black}
+\colorlet{ColorBoxBG}{White}
+
+% =============== Tikz setup ===============
+
+\input{drawing_package}
+
+
+% =============== Title Style ===============
+    
+\usepackage{titling} % Allows custom title configuration
+    
+\newcommand{\HorRule}{\color{ColorTitle}\rule{\linewidth}{1pt}} % Defines the gold horizontal rule around the title
+    
+\pretitle{
+    \vspace{-50pt} % Move the entire title section up
+    \HorRule\vspace{9pt} % Horizontal rule before the title
+    \fontsize{27}{36}
+    \usefont{OT1}{phv}{b}{n}
+    \selectfont
+    \color{ColorTitle} % Text colour for the title and author(s)
+}
+    
+\posttitle{\par\vskip 15pt} % Whitespace under the title
+    
+\preauthor{\fontsize{17}{0}\usefont{OT1}{phv}{m}{n}\selectfont\color{ColorTitle}} % Anything that will appear before \author is printed
+    
+\postauthor{\par\HorRule}
+
+\newcommand{\COURSENAME}{\textcolor{black}{CE 2022}}
+\newcommand{\HU}{\textcolor{black}{Hasrick Umata}}
+\newcommand{\PHYS}{\textcolor{black}{Department of Physics}}
+\newcommand{\USTC}{\textcolor{black}{USTC}}
+\author{\COURSENAME, \HU, \PHYS, \USTC}
+
+\date{}
+
+% =============== Section Name Style ===============
+    
+\usepackage{titlesec}
+    
+\titleformat{\section}
+    {\fontsize{15}{20}\usefont{OT1}{phv}{b}{n}\color{ColorSectionName}}
+    {\thesection}{1em}{}
+    %[{\vspace{0.2cm}\titlerule[0.8pt]}]
+    
+\titleformat{\subsection}
+    {\fontsize{14}{20}\usefont{OT1}{phv}{m}{n}\color{ColorSectionName}}
+    {\thesubsection}{1em}{}
+    
+\titleformat{\subsubsection}
+    {\fontsize{12}{20}\usefont{OT1}{phv}{m}{n}\color{ColorSectionName}}
+    {}{0em}{}
+      
+\setcounter{secnumdepth}{4}
+        
+% =============== Box Style ===============
+    
+\usepackage[most]{tcolorbox}
+    
+\newtcolorbox{tbox}[1]{
+    colback=ColorBoxBG, colframe=ColorBoxFG, coltext=ColorBoxText,
+    sharp corners, enhanced, breakable, parbox=false,
+    before skip=1em, after skip=1em,
+    title={#1}, fonttitle=\usefont{OT1}{phv}{b}{n}, 
+    attach boxed title to top left={yshift=-0.1mm}, boxed title style={sharp corners, colback=ColorBoxFG, left=0.405cm},
+    rightrule=-1pt,toprule=-1pt, bottomrule=-1pt
+}
+
+\newtcolorbox{mtbox}[1]{
+    colback=ColorBoxBG, colframe=ColorBoxFG, coltext=ColorBoxText,
+    sharp corners, enhanced, breakable, parbox=false,
+    before skip=1em, after skip=1em,
+    title={#1}, fonttitle=\usefont{OT1}{phv}{b}{n},
+    attach boxed title to top left={yshift=-0.1mm}, boxed title style={sharp corners, colback=ColorBoxFG, left=0.15cm},
+    rightrule=-1pt,toprule=-1pt, bottomrule=-1pt, 
+    left=0.5em
+}
+
+% =============== tikz has to be loaded after xcolor
+\usepackage{tikz}
+
+\newcommand*\enumlabel[1]{\tikz[baseline=(char.base)]{
+			\node[shape=rectangle,inner sep=2pt,fill=ColorBoxFG] (char) 
+			{\fontsize{7}{20}\usefont{OT1}{phv}{b}{n}{\textcolor{ColorBoxBG}{#1}}};}}
+
+% =============== Useful shortcuts ===============
+
+\newcommand\wref[1]{{\hypersetup{linkcolor=white}\ref{#1}}}  
+
+\newcommand{\textbox}[2]{
+    \begin{tbox}{#1}
+        #2
+    \end{tbox}
+}
+
+\newcommand{\mtextbox}[2]{\marginnote{
+    \begin{mtbox}{#1}
+        #2
+    \end{mtbox}}
+}
+
+\newcommand{\mnewline}{\vspace{0.5em}\newline}
+
+\newcommand{\titem}[1]{
+    \begin{itemize}[label=\color{ColorBoxFG}$\blacktriangleright$, leftmargin=0mm, labelsep=0.27cm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{itemize}
+}
+
+\newcommand{\mtitem}[1]{
+    \begin{itemize}[label={\color{ColorBoxFG}$\blacktriangleright$}, leftmargin=0mm, labelsep=1mm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{itemize}
+}
+
+\newcommand{\itembox}[3]{
+    \begin{tbox}{#1}
+        #2
+        \titem{#3}
+    \end{tbox}
+}
+
+\newcommand{\mitembox}[3]{
+    \marginnote{
+    \begin{mtbox}{#1}
+        #2
+        \mtitem{#3}
+	\end{mtbox}
+    }
+}
+
+\newcommand{\tenum}[1]{
+    \begin{enumerate}[label=\protect\enumlabel{\arabic*}, leftmargin=0mm, labelsep=0.265cm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{enumerate}
+}
+
+\newcommand{\enumbox}[3]{
+    \begin{tbox}{#1}
+        #2
+        \tenum{#3}
+    \end{tbox}
+}
+
+\newcommand{\twocol}[5]{
+    \begin{minipage}[t][][b]
+        {#1\textwidth}
+        #4        
+    \end{minipage}
+    \hspace{#2\textwidth}
+    \begin{minipage}[t][][b]
+        {#3\textwidth}
+        #5
+    \end{minipage}
+}
+
+\newcommand{\cg}[2]{
+    \begin{center}
+        \includegraphics[width=#1\textwidth]{#2}
+    \end{center}
+}
+
+\newcommand{\tbar}{
+    ~\newline
+    {\color{ColorBoxFG}
+    \hbox to 0.15\textwidth{\leaders\hbox to 5pt{\hss  \hss}\hfil} 
+    \hbox to 0.7\textwidth{\leaders\hbox to 5pt{\hss . \hss}\hfil}}
+    \mnewline
+}
+
+% =============== Filter unwanted warnings
+\usepackage{silence}
+\WarningsOff[tcolorbox]
+\hbadness=1000000
+
+\title{矢量，对偶矢量与协变导数}
+
+
+\begin{document}
+
+\maketitle
+
+\textbox{初学曲线坐标系的疑惑}{
+    作为本次习题课的开头，我回忆起我初学坐标系时的一个疑惑。
+    \begin{quote}
+        考虑一个r轴的矢量在球面上平移，它在球面上处处也都是r轴矢量，那么在球面上每一点这个矢量都是相同的，至少在坐标架里具有相同的形式。但是我们凭什么认为这些矢量都是相同的？极端点来说，随着这个矢量从北极运动到南极，它的分量完全变换了180°。它随着每一次运动都改变了矢量值，却在新旧坐标系里保持形式相同，这本身是不是就存在某些问题？
+    \end{quote}
+	更进一步思考
+	\begin{quote}
+		诚然，在每一点处，定义的球坐标架正交归一，可以很好与我们的直觉相合，但是考虑在不同点的坐标架，同一个矢量在从一个切平面“跳”到另外一个坐标架，一个矢量会不会在这个“跳”的过程中发生了改变。
+	\end{quote}
+	那么，如何来研究矢量在一个球面、乃至于任意一个曲面上的运动呢？\marginnote{这是一个叫微分流形的数学概念}这就引入了我们今天的话题，矢量、对偶矢量与协变导数。
+    \marginnote{
+        \ref{item:vector_def}、\ref{item:covariant_and_contravariant_def}、\ref{item:covariant_derivatives}的详细证明可以参考\cite{lcb}或询问你任何的数学系同学。
+    }
+    \tenum{
+        \item 在不平凡的空间里，矢量与对偶矢量怎么定义与描述？\label{item:vector_def}
+        \item 我们为什么要管那一堆矢量叫什么协变逆变？其中有什么深层的含义？\label{item:covariant_and_contravariant_def}
+        \item 我们该怎样定性定量描述坐标的变化带来的矢量分量变化？\label{item:covariant_derivatives}
+    }
+	
+    \mtextbox{拿掉球坐标系的概念！}{
+        如果你用球坐标系想的话，乃至于直接把球坐标系的微分公式$\nabla$搬过来，那这份讲义实际上啥都没说。我们这份讲义的目的就是要让大家了解，对于一个任意形状的曲面，我们怎么样来定义它不同点之间的变化（在数学上，这个归于微分流形范畴）。球坐标乃至于一般的曲线坐标都是这种方法的特例。本作中，为了方便大家理解，有一个物理直觉式的感受，我们取球坐标作为例子来讲。
+    }
+}
+\section*{符号约定}
+在最前面约定好本作的符号体系是非常好的。大家不会被各种各样的术语吓到，也能方便后续的查找。
+\begin{enumerate}
+	\item\qquad	$ \mathbf{e}_a $	\qquad	矢量空间的基底
+	\item\qquad	$ \mathbf{e}^a $	\qquad	对偶空间的基底
+	\item\qquad	$ \mathbf{v}^a $	\qquad	矢量空间矢量$\mathbf{v}$的逆变分量
+	\item\qquad	$ \mathbf{v}_a $	\qquad	矢量空间矢量$\mathbf{v}$的协变分量
+	\item\qquad	$ f $	\qquad	某一空间上的函数。本作中只考虑性质非常好的函数，即光滑函数
+\end{enumerate}
+特别注意一下基底与分量的逆变协变别记反了。
+
+\section{矢量与对偶矢量的定义}
+我们回顾一下我们在序言里遇到的问题。问题的一个关键便是坐标系在球面上不能很好的定义，每个点附近的切面各自有各自的坐标系，怎么给这些坐标系统一起来乃至于能够让不同点附近的空间内的元素可以联系起来、比较大小成为了我们很头疼的问题。为此，我们不妨把坐标系全部拿掉，来看看如果只给一个光秃秃的球，我们能干什么。
+
+
+\subsection{从标量场开始}
+注意到啥都没有的话，我们的矢量在球面上并不能很好的定义（现在啥都没了，我怎么描述这个矢量指向哪里），我们想找到这么一个量。它的大小与坐标系的选取无关，无论你用的什么坐标系，只要描述的都是这样一个点$x$，我们都能够唯一地确定它的值，这样的话我们就找到了一个与坐标系无关、只与点有关的量。不妨取这个量是某个实数，我们获得了在球面上的\textbf{函数}，记为$f$。他是球面上某一点到实数轴上的一个映射。当考虑球面上每一点的函数值时，构成\textbf{标量场}$F$。这个f构成任意一个函数空间。
+
+现在把我们的坐标系拿回来，起码我们还是需要坐标系来描述点的，那么我们的函数就记为$f(x)$。盘算一下我们已经有了啥。我们有了一个空间（球面），有了每个点附近的切空间（每个点切面上一个坐标架），有了标量场。下一步我们就可以尝试定义矢量。
+
+\marginnote{标量场定义好以后，我们先聚焦于某一个点，在这一点上定义好我们的矢量。不同空间间的矢量变换是第二部分的内容。}
+
+\subsection{矢量的定义}
+矢量的定义非常的宽泛，只要是满足矢量空间的几个要求（参考线性代数教材）的集合，其中的元素都可以作为矢量。但是我们希望能够找到这样的一个矢量，它能够被每个点附近的切空间（现在上面有函数的定义与坐标架）自然地描述。一个合理的选择是与其上函数的导数相对应。即，我们把在切空间里的沿坐标架的方向导数算子定义为矢量：
+\begin{equation}
+	X_{\mu} (f) = \frac{\partial f(x)}{\partial x^{\mu}}
+\end{equation}
+我们注意到，用这种方法定义的矢量能很好满足我们线性空间的要求（正如在约定中所言，我们的切空间和函数拥有较好的性质），且他们构成切空间的一组完备基，故切空间内的每一个矢量都可以表示为他们的线性组合：
+\begin{equation}
+	\mathbf{V} = V^{\mu} X_{\mu}
+\end{equation}
+我们将$X_{\mu}$（也可写作$e_{\mu}$）称为空间的坐标基矢，将展开式中的$V^{\mu}$记作矢量V的逆变分量。
+
+
+\subsection{对偶矢量的定义}
+如果我们在切空间里面对函数作全微分：
+\begin{equation}
+	df = \partial_{\mu} f d x^{\mu}
+	\label{introduction}
+\end{equation}
+这个函数的变化量df是一个不随坐标系变化的不变量，也属于一组标量场。在矢量的定义里面，我们用求导去定义了矢量，那么，在\ref{introduction}中的$dx^{\mu}$，我们应该做何理解呢？
+
+注意到在\ref{introduction}里面，因为$dx^{\mu}$的参与，我们的右端与矢量有关的部分不见了，或者说，右边失去了坐标的协变性，变成了一个与坐标变换无关的量。\textbf{$dx^{\mu}$作用于矢量得到了一个与坐标无关的数}，是矢量基底的对偶量。
+
+研究$dx^{\mu}$的性质，我们发现它也满足矢量空间的性质，故他们被称作\textbf{对偶矢量}。同样的，$dx^{\mu}$也构成对偶空间的一组完备基底，我们也称他们为对偶矢量基，记作$e^{\mu}$
+\marginnote{严格来说，由导数定义的矢量还需要有莱布尼茨律，不过本作不打算详细介绍。这样的省略能够帮助大家尽可能抓住矢量与对偶矢量的几何含义，快速培养物理直觉}
+
+对偶矢量基底与矢量基底的关系满足：
+\begin{equation}
+	e_{\mu} e^{\nu} = \delta_{\mu}^{\nu}
+\end{equation}
+对于同一个矢量$\mathbf{V}$，我们有了两组基底，故既可以展开为$V^{\mu} e_{\mu}$，也可以展开为$V_{\mu} e^{\mu}$。
+
+
+\section{协变导数与联络}
+现在我们在每个点上面都定义好了我们的矢量场，我们希望研究矢量的变化。但在这个过程中，注意到我们不同参考系之间的矢量是不一样的，在你的参考系里，这个矢量可能是沿着x轴，但是我看来，它可能是沿着z轴的。造成这个差异的根源就是每个点附近切空间结构的差别。为此，如何定性描述这空间结构的差别，使矢量的定义相统一，成为了我们研究的关键。
+
+\marginnote{我们要注意一点，矢量没有逆变协变之分，只有分量才会有区别！}
+
+\subsection{协变与逆变由来}
+考虑用不同点上定义的坐标架去描述球面。从第一个点的坐标架出发，我们获得了球面上一点的坐标$x^{\mu}$，从第二个点的坐标架出发，我们获得了球面上同一点的坐标$x’^{\nu}$。此时对于此点上的某个函数而言，两组坐标对应相同的函数值，即$f(x) = f'(x'(x))$。
+
+现在我们对他们同时求自然导数，我们得到：
+\begin{equation}
+	\partial_{\mu} f = \partial_{\mu} f'
+	\label{covariant_1}
+\end{equation}
+注意到在\ref{covariant_1}中，我们可以在两组坐标架之间可以建立函数关系，\ref{covariant_1}变为：
+\begin{equation}
+	\partial_{\mu} f = \partial_{\mu} f' = \frac{\partial x'^{\nu}}{\partial x^{\mu}} \partial'_{\nu} f'
+\end{equation}
+也即我们的基矢量按照
+\begin{equation}
+	e_{\mu} = \partial_{\mu} = \frac{\partial x'^{\nu}}{\partial x^{\mu}} \partial'_{\nu} = \frac{\partial x'^{\nu}}{\partial x^{\mu}} e'_{\nu}
+\end{equation}
+进行变化。
+
+
+同样的道理，按照我们对偶基矢的定义，故它们的变化规则应为：
+\begin{equation}
+	e^{\mu} = dx^{\mu} = \frac{\partial x^{\mu}}{\partial x'^{\nu}} dx'^{\nu} = \frac{\partial x^{\mu}}{\partial x'^{\nu}} e'^{\nu}
+\end{equation}
+我们管基矢量随坐标系的选取变化叫做逆变与协变。当任何一组量在新的坐标系里面的变换关系与基矢量$e_{\mu}$相同的时候，我们称其为协变的；当一组量在新的坐标系里面的变换关系与对偶基矢$e^{\mu}$相同的时候，我们称其为逆变的。
+
+同学们有一点可能会疑惑。我们这里更多着眼于基矢的变化，与向量分量的逆变与协变性有什么联系呢？在下一小节中，我们将会讲到，为什么我们需要矢量的逆变与协变性。
+
+\subsection{为什么我们需要协变性与逆变性？}
+我们注意到，如果我们需要一个物理定律在不同的参考系里相同，我们需要这个物理定律能够与某个不随参考系变换的量产生一一对应，譬如我们在狭义相对论里面总能够找到一个洛伦兹标量与之相符。
+\marginnote{比如说电荷守恒定律。这个定律在各个参考系里面都相同，对应于洛伦兹标量即为$\partial_{\nu}J^{\nu} = 0$}
+如果某个矢量是参考系协变的，它的分量满足
+\begin{equation}
+	V_{\nu} = \frac{\partial x'^{\mu}}{\partial x^{\nu}} V'_{\mu}
+	\label{covariant_component}
+\end{equation}
+其变换与基矢量的变换相一致。
+
+注意到逆变变换与协变变换相乘为单位变换，这样矢量在不同参考系里的变换为：
+\begin{equation}
+	V_{\nu} e^{\nu} = V'_{\mu} \frac{\partial x'^{\mu}}{\partial x^{\nu}} \frac{\partial x^{\sigma}}{\partial x'^{\rho}} e'^{\rho} = V'_{\mu} e'^{\mu}
+\end{equation}
+再由在曲面上良好定义的标量场，我们可以说，这样前后变换的矢量是同一个矢量。由此，我们得到，如果矢量的分量在系变换时，按照\ref{covariant_component}进行变换，即可达到我们追求的“在不同坐标系里描述同一个矢量”的目的。也可以这么说，逆变与协变很好地描述了我们的矢量分量随参考系变化的变化。
+
+
+\subsection{协变导数定义、联络系数}
+上面的描述在只涉及矢量变换的时候没什么问题，但是一旦和导数联系起来就出了一点问题。理想的情况下，考虑相邻两点间的变换，我们的矢量变换应该是这样的：
+\begin{equation}
+	\partial_{\nu} V_{\mu} = \frac{\partial x'^{\rho}}{\partial x^{\nu}} \frac{\partial x'^{\sigma}}{\partial x^{\mu}} \partial'_{\rho} V'_{\sigma}
+	\label{covariant_ideal}
+\end{equation}
+但是实际计算起来就会发现一点问题。\ref{covariant_ideal}会多出一项$V_{\rho}\frac{partial^2 x'^{\rho}}{\partial x^{\mu}\partial x^{\nu}}$。这个量等于0当然很好，但是这个不总是成立。典型的一点就是球坐标，很显然，随着坐标的变换，并不是每一点的基矢量都是不变的。
+
+我们考虑某种协变导数的形式，它能够保持我们需要的协变性：
+\begin{equation}
+	\nabla_{\nu} V_{\rho} = \frac{\partial x'^{\rho}}{\partial x^{\nu}} \frac{\partial x'^{\sigma}}{\partial x^{\mu}} \nabla'_{\rho} V'_{\sigma}
+	\label{covariant_target}
+\end{equation}
+
+为了达到这一点，我们考虑构造一个张量来联系多余的那一项，称为克氏符$\Gamma$。它既只与每一项自己的坐标与度规有关，又满足：
+\begin{equation}
+	\frac{partial^2 x'^{\rho}}{\partial x^{\mu}\partial x^{\nu}} = \frac{x'^{\rho}}{x^{\sigma}}\Gamma^{\sigma}_{ \mu\nu} + \frac{x'^{\alpha}}{x^{\mu}}\frac{x'^{\beta}}{x^{\nu}}\Gamma'^{\rho}_{ \alpha\beta}
+\end{equation}
+
+把多出来的那一项移进前面的$\partial_{\nu}$里面，我们的$\nabla$可以表示为：
+\begin{equation}
+	\partial_{\nu} V_{\mu} - \Gamma^{rho}_{ \mu\nu} V_{\rho}= \frac{\partial x'^{\rho}}{\partial x^{\nu}} \frac{\partial x'^{\sigma}}{\partial x^{\mu}} (\partial'_{\rho} V'_{\sigma}-\Gamma'^{\alpha}_{ \rho\sigma}V'_{\alpha})
+\end{equation}
+由此我们得到了在每个坐标架上定义良好的协变导数。其作用于协变矢量，我们得到
+\begin{equation}
+	\nabla_{\nu} V_{\mu} = \partial_{\nu} V_{\mu} - \Gamma^{\rho}_{ \mu\nu} V_{\rho}
+\end{equation}
+其作用于标量，我们得到：
+\begin{equation}
+	\nabla_{\nu} f = \partial_{\nu} f
+\end{equation}
+其作用于逆变矢量，我们得到
+\begin{equation}
+	\nabla_{\nu} V^{\mu} = \partial_{\nu} V^{\mu} + \Gamma^{\mu}_{ \rho\nu} V^{\rho}
+\end{equation}
+考虑到“张量的变化类似于多个矢量的变化”，我们可以验证，这个协变导数作用于其他张量会给出类似的结果，即每一个张量指标都要按照规则进行变化。例如对于度规张量：
+\begin{equation}
+	\nabla_{\rho} g_{\mu\nu} = \partial_{\rho} g_{\mu\nu} - \Gamma^{\sigma}_{ \rho\mu} g_{\sigma\nu} - \Gamma^{\sigma}_{ \rho\nu} g_{\mu\sigma}
+\end{equation}
+
+
+下面我们尝试来求解这个协变导数中的多余张量项，或称为\textbf{联络系数}。由于这个张量的选择可以任意差一个常数值的张量，我们给定限制条件$\nabla_{\nu}\nabla_{\mu} = \nabla_{\mu}\nabla_{\nu}$（无挠条件）与$\nabla g = 0$（度规适配条件），轮换指标得到：
+\marginnote{这里的详细计算可以在任何一本微分几何的参考书上找到}
+\begin{equation}
+	\Gamma^{\rho}_{ \mu\nu} = \frac{1}{2} g^{\sigma\rho}(\partial_{\mu}g_{\nu\rho}+\partial_{\nu}g_{\mu\rho}-\partial_{\rho}g_{\mu\nu})
+	\label{Christoffel} 
+\end{equation}
+
+作为一个最简单的应用，我们可以把这个结果和我们熟悉的结果做一个联系。
+
+我们在计算一般曲线坐标系的梯度时，使用的$\nabla$的定义为：
+\marginnote{有关这方面的内容，我们在第一次的作业里做过。我们也能在陶老师的参考书里找到有关内容。}
+\begin{equation}
+	\nabla\cdot\vec{V} = \frac{1}{\sqrt{|g|}}\partial_{\mu}(\sqrt{|g|}V^{\mu})
+	\label{previous_formula}
+\end{equation}
+在\ref{previous_formula}中，我们注意到等式的左边即为$\nabla_{\mu} V_{\nu}$的一个缩并，也即$\nabla_{\mu} V_{\nu} g^{\mu\nu} = \nabla_{\mu} V^{\mu}$。他的值等于：
+\begin{equation}
+	\nabla_{\mu} V^{\mu} = \partial_{\mu} V_{\mu} + \Gamma^{\mu}_{ \mu\lambda} V^{\lambda}
+\end{equation}
+再考虑\ref{Christoffel}中的缩并结果：
+\begin{equation}
+	\Gamma^{\mu}_{ \mu\lambda} = \frac{1}{2}g^{\mu\rho}(\partial_{\lambda}g_{\rho\mu}+\partial_{\mu}g_{\rho\lambda} - \partial_{\rho}g_{\mu\lambda}) = \frac{1}{2} g^{\mu\rho} \partial_{\lambda} g_{\rho\mu}
+	\label{contraction_1}
+\end{equation}
+利用矩阵分析里的一个恒等式：
+\begin{equation}
+	\frac{1}{2}Tr(M^{-1} \delta M) = \frac{\delta \sqrt{|detM|}}{\sqrt{|detM|}}
+	\label{identity}
+\end{equation}
+我们可以证明，\ref{contraction_1}式的右边等于
+\begin{equation}
+	\Gamma^{\mu}_{\mu\lambda} = \frac{1}{\sqrt{|g|}}\partial_{\lambda} \sqrt{|g|}
+\end{equation}
+结合以上式子，最终我们得到一个我们熟悉的结果：
+\begin{equation}
+	\nabla_{\mu} V^{\mu} = \partial_{\mu} V_{\mu} + (\frac{1}{\sqrt{|g|}}\partial_{\lambda} \sqrt{|g|}) V^{\lambda} = \frac{1}{\sqrt{|g|}}\partial_{\mu}(\sqrt{|g|}V^{\mu})
+\end{equation}
+这是我们很熟悉的梯度表达式。通过这个例子，我们能够感受到协变导数与我们原来的所学的球坐标系的导数符号有千丝万缕的联系之处。
+
+
+\section{后记}
+在这篇习题课讲义里还有很多不够充分与严谨的地方，比如说对于某一个点的切空间，我总是强调它为简单的直角坐标系，来说明不同点空间的不一致性；但是为了说明坐标的协变性，我又经常说一个点的坐标可以拓展出去描述一整个球面，来说明不同点的空间间的坐标可以产生联系。这个说法是非常前后矛盾且错误的，正确的做法应该是通过相邻的两点切空间的公共部分来定义坐标的变换等（对于光滑的流形，这个总是成立的）。本作中为了规避复杂的数学集合论与微分流形。读者只需再抽象掉以上两个概念，取其精华去其糟粕，抓住相邻两点间的坐标基是可以变换的即可。
+
+\bibliography{ref}
+\end{document}
